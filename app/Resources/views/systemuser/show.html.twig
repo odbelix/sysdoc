@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Systemuser</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ systemUser.id }}</td>
+            </tr>
+            <tr>
+                <th>System_role_id</th>
+                <td>{{ systemUser.systemroleid }}</td>
+            </tr>
+            <tr>
+                <th>System_id</th>
+                <td>{{ systemUser.systemid }}</td>
+            </tr>
+            <tr>
+                <th>Created_at</th>
+                <td>{% if systemUser.createdat %}{{ systemUser.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('systemuser_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('systemuser_edit', { 'id': systemUser.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

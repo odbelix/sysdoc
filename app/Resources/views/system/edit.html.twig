@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block body %}
+    {% include 'breadcrumb.html.twig' with {'breadcrumbs': breadcrumbs} %}
+    <div class="row">
+        <div class="col-12">
+            <h1>{{system.name}}</h1>
+            {{ form_start(edit_form, {'attr': {'novalidate': 'novalidate'}}) }}
+            <div class="form-group">
+                {{ form_row(edit_form.name,{'attr': {'class':'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(edit_form.shortdescription,{'attr': {'class':'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(edit_form.description,{'attr': {'class':'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_errors(edit_form) }}
+            </div>
+
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        {% if system is defined %}
+                            <a class="btn btn-default" href="{{ path('system_show', {'id': system.id}) }}"><i class="fa fa-undo"></i> Volver</a>
+                        {% else %}
+                            <a class="btn btn-default" href="{{ path('system_index') }}"><i class="fa fa-undo"></i> Volver</a>
+                        {% endif %}
+                        <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar</button>
+                    </div>
+                </div>
+            {{ form_end(edit_form) }}
+                    {{ form_start(delete_form) }}
+                        <input class="btn btn-danger" type="submit" value="Eliminar">
+                    {{ form_end(delete_form) }}
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+<script src="https://cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>
+<script>
+CKEDITOR.replace( 'appbundle_system[shortdescription]' );
+CKEDITOR.replace( 'appbundle_system[description]' );
+</script>
+{% endblock %}

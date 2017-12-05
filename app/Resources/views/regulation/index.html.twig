@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Regulations list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Valid</th>
+                <th>Name</th>
+                <th>Number</th>
+                <th>Date</th>
+                <th>Created_at</th>
+                <th>Updated_at</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for regulation in regulations %}
+            <tr>
+                <td><a href="{{ path('regulation_show', { 'id': regulation.id }) }}">{{ regulation.id }}</a></td>
+                <td>{% if regulation.valid %}Yes{% else %}No{% endif %}</td>
+                <td>{{ regulation.name }}</td>
+                <td>{{ regulation.number }}</td>
+                <td>{{ regulation.date }}</td>
+                <td>{% if regulation.createdat %}{{ regulation.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if regulation.updatedat %}{{ regulation.updatedat|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('regulation_show', { 'id': regulation.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('regulation_edit', { 'id': regulation.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('regulation_new') }}">Create a new regulation</a>
+        </li>
+    </ul>
+{% endblock %}

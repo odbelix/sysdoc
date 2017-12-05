@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="row">
+    <div class="col-12">
+        <h1>Duración de Periodos</h1>
+        <h3><a class="btn btn-success" href="{{ path('periodduration_new') }}"><i class="fa fa-fw fa-plus"></i></a></h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Opciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for periodDuration in periodDurations %}
+                <tr>
+                    <td>{{ periodDuration.title }}</td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="...">
+                            <a class="btn btn-info" href="{{ path('periodduration_show', { 'id': periodDuration.id }) }}">Ver</a>
+                            <a class="btn btn-primary" href="{{ path('periodduration_edit', { 'id': periodDuration.id }) }}">Editar</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

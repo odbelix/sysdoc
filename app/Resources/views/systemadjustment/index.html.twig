@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Systemadjustments list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for systemAdjustment in systemAdjustments %}
+            <tr>
+                <td><a href="{{ path('systemadjustment_show', { 'id': systemAdjustment.id }) }}">{{ systemAdjustment.id }}</a></td>
+                <td>{{ systemAdjustment.name }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('systemadjustment_show', { 'id': systemAdjustment.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('systemadjustment_edit', { 'id': systemAdjustment.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('systemadjustment_new') }}">Create a new systemAdjustment</a>
+        </li>
+    </ul>
+{% endblock %}

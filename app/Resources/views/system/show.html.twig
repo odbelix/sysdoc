@@ -1,0 +1,167 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'breadcrumb.html.twig' with {'breadcrumbs': breadcrumbs} %}
+    <h1>{{system.name}}</h1>
+    <table class="table table-bordered table-hover">
+        <tbody>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ system.name }}</td>
+            </tr>
+            <tr>
+                <th>Descripción</th>
+                <td>{{ system.shortdescription | raw }}</td>
+            </tr>
+            <tr>
+                <th>Detalle Técnico</th>
+                <td>{{ system.description | raw }}</td>
+            </tr>
+            <tr>
+                <th>Creado</th>
+                <td>{% if system.createdat %}{{ system.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Actualizado</th>
+                <td>{% if system.updatedat %}{{ system.updatedat|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <td>
+                    {{ form_start(delete_form) }} <input class="btn btn-danger" type="submit" value="Eliminar"> {{ form_end(delete_form) }}
+                </td>
+                <td>
+                    <div class="btn-group" role="group" aria-label="...">
+                        <a class="btn btn-info" href="{{ path('system_index') }}">Volver</a>
+                        <a class="btn btn-primary" href="{{ path('system_edit', { 'id': system.id }) }}">Editar</a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <hr>
+<div class="row">
+    <div class="col-lg-4">
+        <!-- System Notes -->
+        <div class="card mb-3">
+            <div class="card-header">
+            <i class="fa fa-bell-o"></i> Notas del Sistema </div>
+            <div class="list-group list-group-flush small">
+              {% set break = false %}
+              {% set count = 1 %}
+              {% for note in system.systemnotes if not break %}
+              {% if count == 5 %}
+                {% set break = true %}
+              {% endif %}
+              <a class="list-group-item list-group-item-action" href="#">
+                <div class="media">
+                  <div class="media-body">
+                    <strong>{{note.name}}</strong>: {{note.description}}
+                    <br><strong>{{note.year}} / {{note.period}}</strong>
+                    <div class="text-muted smaller">Ultima actualización: {% if note.updatedat %}{{ note.updatedat|date('Y-m-d H:i:s') }}{% endif %}</div>
+                  </div>
+                </div>
+              </a>
+              {% set count = count + 1 %}
+              {% endfor %}
+              <a class="list-group-item list-group-item-action" href="{{path('systemnote_index')}}">Ver todas las Notas de los Sistemas...</a>
+            </div>
+            <div class="card-footer small text-muted">
+                <a class="list-group-item list-group-item-action" href="{{ path('systemnote_new', {'system': system.id } ) }}">Agregar Nota</a>
+            </div>
+          </div>
+    </div>
+    <div class="col-lg-4">
+    <!-- System Roles -->
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fa fa-bell-o"></i> Roles
+            </div>
+            <div class="list-group list-group-flush small">
+                {% set break = false %}
+                {% set count = 1 %}
+                {% for role in system.systemusers if not break %}
+                    {% if count == 5 %}
+                        {% set break = true %}
+                    {% endif %}
+                    <a class="list-group-item list-group-item-action" href="#">
+                        <div class="media">
+                        <div class="media-body">
+                            <strong>{{note.name}}</strong>: {{note.description}}
+                            <br><strong>{{note.year}} / {{note.period}}</strong>
+                            <div class="text-muted smaller">Ultima actualización: {% if note.updatedat %}{{ note.updatedat|date('Y-m-d H:i:s') }}{% endif %}</div>
+                        </div>
+                        </div>
+                    </a>
+                    {% set count = count + 1 %}
+                {% endfor %}
+                <a class="list-group-item list-group-item-action" href="{{path('systemnote_index')}}">Ver todos los Roles del Sistema...</a>
+                </div>
+                <div class="card-footer small text-muted">
+                <a class="list-group-item list-group-item-action" href="{{ path('systemnote_new', {'system': system.id } ) }}">Agregar Rol</a>
+                </div>
+        </div><!-- END -->
+    </div>
+    <div class="col-lg-4">
+    <!-- System Functions -->
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fa fa-bell-o"></i> Funcionalidades
+            </div>
+            <div class="list-group list-group-flush small">
+                {% set break = false %}
+                {% set count = 1 %}
+                {% for role in system.systemfunctionalities if not break %}
+                    {% if count == 5 %}
+                        {% set break = true %}
+                    {% endif %}
+                    <a class="list-group-item list-group-item-action" href="#">
+                        <div class="media">
+                        <div class="media-body">
+                            <strong>{{note.name}}</strong>: {{note.description}}
+                            <br><strong>{{note.year}} / {{note.period}}</strong>
+                            <div class="text-muted smaller">Ultima actualización: {% if note.updatedat %}{{ note.updatedat|date('Y-m-d H:i:s') }}{% endif %}</div>
+                        </div>
+                        </div>
+                    </a>
+                    {% set count = count + 1 %}
+                {% endfor %}
+                <a class="list-group-item list-group-item-action" href="{{path('systemnote_index')}}">Ver todos los Roles del Sistema...</a>
+                </div>
+                <div class="card-footer small text-muted">
+                <a class="list-group-item list-group-item-action" href="{{ path('systemnote_new', {'system': system.id } ) }}">Agregar Rol</a>
+                </div>
+        </div><!-- END -->
+    </div>
+</div>
+    <h2>Notas del Sistema</h2>
+    <h3><a class="btn btn-success" href="{{ path('systemnote_new', {'system': system.id } ) }}"><i class="fa fa-fw fa-plus">Agregar Nota</i></a></h3>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                    <th>Nombre</th>
+                    <th>Año</th>
+                    <th>Periodo</th>
+                    <th>Tipo</th>
+                    <th>Opciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for note in system.systemnotes %}
+                        <tr>
+                            <td>{{ note.name }}</td>
+                            <td>{{ note.year }}</td>
+                            <td>{{ note.period }}</td>
+                            <td>{{ note.systemadjustment }}</td>
+                            <td>
+                            <div class="btn-group" role="group" aria-label="...">
+                                <a class="btn btn-info" href="{{ path('systemnote_show', { 'id': note.id }) }}">Ver</a>
+                                <a class="btn btn-primary" href="{{ path('systemnote_edit', { 'id': note.id }) }}">Editar</a>
+                            </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+        </table>
+
+
+{% endblock %}

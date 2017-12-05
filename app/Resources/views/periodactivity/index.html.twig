@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+{% block title %}Calendario académico{% endblock %}
+
+{% block stylesheets %}
+<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+{% include 'breadcrumb.html.twig' with {'breadcrumbs': breadcrumbs} %}
+<div class="row">
+    <div class="col-12">
+        <h1>Actividades - Calendario académico</h1>
+        <h3>
+            <a class="btn btn-success" href="{{ path('periodactivity_new') }}"><i class="fa fa-fw fa-plus"></i></a>
+            <a class="btn btn-info" href="{{ path('periodactivity_print') }}"><i class="fa fa-fw fa-print"></i></a>
+            <a class="btn btn-warning" href="{{ path('periodactivity_printadm') }}"><i class="fa fa-fw fa-print"></i></a>
+        </h3>
+        <table id="calendario" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Mes</th>
+                    <th>Inicio</th>
+                    <th>Termino</th>
+                    <th>Actividad</th>
+                    <th class="hidden-print">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% set month = '' %}
+            {% for periodActivity in periodActivities %}
+                {% if 'Feriado' in periodActivity.description %}
+                <tr class="table-warning">
+                {% else %}
+                <tr>
+                {% endif %}
+                    <td>{{months[periodActivity.startdate|date('m')]}}</td>
+                    <td>{{days[periodActivity.startdate|date('N')]}} {% if periodActivity.startdate %}{{ periodActivity.startdate|date('d/m') }}{% endif %}</td>
+                    <td>{% if periodActivity.enddate %} {{days[periodActivity.enddate|date('N')]}} {{ periodActivity.enddate|date('d/m') }}{% endif %}</td>
+                    <td>{{ periodActivity.description | raw }}</td>
+                    <td class="hidden-print">
+                        <div class="btn-group" role="group" aria-label="...">
+                            <a class="btn btn-info" href="{{ path('periodactivity_show', { 'id': periodActivity.id }) }}">Ver</a>
+                            <a class="btn btn-primary" href="{{ path('periodactivity_edit', { 'id': periodActivity.id }) }}">Editar</a>
+                            <a class="btn btn-success" href="{{ path('periodactivity_duplicate', { 'id': periodActivity.id }) }}">Duplicar</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#calendario').DataTable( {
+        dom: 'Bfrtip',
+        bSort: false,
+        paging: false,
+        info: false,
+        "language": {
+            "search": "Buscar:",
+            "sZeroRecords": "No existin datos para la busqueda, intente nuevamente."
+        }
+    } );
+} );
+</script>
+{% endblock %}
