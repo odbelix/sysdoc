@@ -287,4 +287,9 @@ class Regulation
     {
         return array('id', 'valid', 'name', 'number', 'date', 'created_at', 'updated_at');
     }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }

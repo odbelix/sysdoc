@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+{% block title %}Reglamentos{% endblock %}
+
+{% block stylesheets %}
+<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+{% include 'breadcrumb.html.twig' with {'breadcrumbs': breadcrumbs} %}
+<div class="row">
+    <div class="col-12">
+    <h1>Artículos de los Reglamentos</h1>
+    <h3>
+        <a class="btn btn-success" href="{{ path('regulationart_new') }}"><i class="fa fa-fw fa-plus"></i></a>
+    </h3>
+    <table id="articulos" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Reglamento</th>
+                <th>Nombre</th>
+                <th>Detalle</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for regulationArt in regulationArts %}
+            <tr>
+                <td>{{ regulationArt.regulation }}</td>
+                <td>{{ regulationArt.name }}</td>
+                <td>{{ regulationArt.detail[:50] ~ '...'}}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('regulationart_show', { 'id': regulationArt.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('regulationart_edit', { 'id': regulationArt.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#articulos').DataTable( {
+        dom: 'Bfrtip',
+        bSort: false,
+        paging: false,
+        info: false,
+        "language": {
+            "search": "Buscar:",
+            "sZeroRecords": "No existin datos para la busqueda, intente nuevamente."
+        }
+    } );
+} );
+</script>
+{% endblock %}

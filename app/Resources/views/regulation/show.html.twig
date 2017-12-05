@@ -41,7 +41,6 @@
             </tr>
         </tbody>
     </table>
-
     <ul>
         <li>
             <a href="{{ path('regulation_edit', { 'id': regulation.id }) }}">Edit</a>
@@ -52,4 +51,40 @@
             {{ form_end(delete_form) }}
         </li>
     </ul>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-lg-6">
+        <!-- System Notes -->
+        <div class="card mb-3">
+        <div class="card-header">
+        <i class="fa fa-bell-o"></i> Articulos </div>
+        <div class="list-group list-group-flush small">
+          {% set break = false %}
+          {% set count = 1 %}
+          {% for art in regulation.regulationarts if not break %}
+          {% if count == 5 %}
+            {% set break = true %}
+          {% endif %}
+          <a class="list-group-item list-group-item-action" href="#">
+            <div class="media">
+              <div class="media-body">
+                <strong>{{art.name}}</strong>: {{art.detail}}
+                <br><strong> Sistemas de Información / Procesos</strong>
+                <div class="text-muted smaller">{{art.systemRegulationArts|length}} / {{art.proccessRegulationArts|length}}</div>
+              </div>
+            </div>
+          </a>
+          {% set count = count + 1 %}
+          {% endfor %}
+          <a class="list-group-item list-group-item-action" href="{{path('regulationart_index')}}">Ver todos los Articulos de los Reglamentos...</a>
+        </div>
+        <div class="card-footer small text-muted">
+            <a class="btn btn-success" href="{{ path('regulationart_new') }}">Agregar Articulo</a>
+        </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+    </div>
 {% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Artículos de los Reglamentos{% endblock %}
+{% block body %}
+{% include 'breadcrumb.html.twig' with {'breadcrumbs': breadcrumbs} %}
+<div class="row">
+    <div class="col-12">
+    <h1>Nuevo Reglamentos</h1>
+    <h3>
+        <a class="btn btn-info" href="{{ path('regulation_index') }}"><i class="fa fa-fw fa-arrow-left"></i></a>
+    </h3>
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    <div class="form-group">
+        {{ form_row(form.name,{'attr': {'class':'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(form.detail,{'attr': {'class':'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(form.regulation,{'attr': {'class':'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        <input class="btn btn-success" type="submit" value="Agregar" />
+    </div>
+    {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>
+<script>
+CKEDITOR.replace( 'appbundle_regulationart[detail]' );
+</script>
+{% endblock %}
