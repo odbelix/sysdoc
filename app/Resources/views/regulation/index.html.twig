@@ -1,49 +1,53 @@
 {% extends 'base.html.twig' %}
+{% block title %}Reglamentos{% endblock %}
+
+{% block stylesheets %}
+<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+{% endblock %}
+
 
 {% block body %}
-    <h1>Regulations list</h1>
-
-    <table>
+{% include 'breadcrumb.html.twig' with {'breadcrumbs': breadcrumbs} %}
+<div class="row">
+    <div class="col-12">
+    <h1>Reglamentos</h1>
+    <h3>
+        <a class="btn btn-success" href="{{ path('regulation_new') }}"><i class="fa fa-fw fa-plus"></i></a>
+    </h3>
+    <table class="table table-bordered table-hover">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Valid</th>
-                <th>Name</th>
-                <th>Number</th>
-                <th>Date</th>
-                <th>Created_at</th>
-                <th>Updated_at</th>
-                <th>Actions</th>
+                <th>Activado</th>
+                <th>Nombre</th>
+                <th>Número RU</th>
+                <th>Fecha RU</th>
+                <th>Archivo</th>
+                <th>Opciones</th>
             </tr>
         </thead>
         <tbody>
         {% for regulation in regulations %}
             <tr>
-                <td><a href="{{ path('regulation_show', { 'id': regulation.id }) }}">{{ regulation.id }}</a></td>
-                <td>{% if regulation.valid %}Yes{% else %}No{% endif %}</td>
+                <td>{% if regulation.valid %}Si{% else %}No{% endif %}</td>
                 <td>{{ regulation.name }}</td>
                 <td>{{ regulation.number }}</td>
                 <td>{{ regulation.date }}</td>
-                <td>{% if regulation.createdat %}{{ regulation.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if regulation.updatedat %}{{ regulation.updatedat|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if regulation.document %}
+                        <a href="{{asset('public/uploads/documents/' ~ regulation.document)}}">Ver Documento (PDF)</a>
+                    {% else %}
+                        No presenta Documento
+                    {% endif %}
+                </td>
                 <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('regulation_show', { 'id': regulation.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('regulation_edit', { 'id': regulation.id }) }}">edit</a>
-                        </li>
-                    </ul>
+                    <div class="btn-group" role="group" aria-label="...">
+                        <a class="btn btn-info" href="{{ path('regulation_show', { 'id': regulation.id }) }}">Ver</a>
+                        <a class="btn btn-primary" href="{{ path('regulation_edit', { 'id': regulation.id }) }}">Editar</a>
+                    </div>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('regulation_new') }}">Create a new regulation</a>
-        </li>
-    </ul>
+    </div>
+</div>
 {% endblock %}

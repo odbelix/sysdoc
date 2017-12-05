@@ -1,9 +1,15 @@
 {% extends 'base.html.twig' %}
+{% block title %}Reglamentos{% endblock %}
 
 {% block body %}
-    <h1>Regulation</h1>
-
-    <table>
+{% include 'breadcrumb.html.twig' with {'breadcrumbs': breadcrumbs} %}
+<div class="row">
+    <div class="col-12">
+    <h1>Revisión de Reglamento</h1>
+    <h3>
+        <a class="btn btn-info" href="{{ app.request.headers.get('referer') }}"><i class="fa fa-fw fa-arrow-left"></i></a>
+    </h3>
+    <table class="table table-bordered table-hover">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -38,14 +44,11 @@
 
     <ul>
         <li>
-            <a href="{{ path('regulation_index') }}">Back to the list</a>
-        </li>
-        <li>
             <a href="{{ path('regulation_edit', { 'id': regulation.id }) }}">Edit</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+                <input class="btn btn-danger" type="submit" value="Delete">
             {{ form_end(delete_form) }}
         </li>
     </ul>

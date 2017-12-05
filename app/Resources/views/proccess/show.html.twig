@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Proccess</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ proccess.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ proccess.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ proccess.description }}</td>
+            </tr>
+            <tr>
+                <th>Id_parent</th>
+                <td>{{ proccess.idparent }}</td>
+            </tr>
+            <tr>
+                <th>Created_at</th>
+                <td>{% if proccess.createdat %}{{ proccess.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('proccess_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('proccess_edit', { 'id': proccess.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

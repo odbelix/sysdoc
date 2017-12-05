@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Proccesssystems list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Proccess_id</th>
+                <th>System_id</th>
+                <th>Created_at</th>
+                <th>Updated_at</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for proccessSystem in proccessSystems %}
+            <tr>
+                <td><a href="{{ path('proccesssystem_show', { 'id': proccessSystem.id }) }}">{{ proccessSystem.id }}</a></td>
+                <td>{{ proccessSystem.proccessid }}</td>
+                <td>{{ proccessSystem.systemid }}</td>
+                <td>{% if proccessSystem.createdat %}{{ proccessSystem.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if proccessSystem.updatedat %}{{ proccessSystem.updatedat|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('proccesssystem_show', { 'id': proccessSystem.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('proccesssystem_edit', { 'id': proccessSystem.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('proccesssystem_new') }}">Create a new proccessSystem</a>
+        </li>
+    </ul>
+{% endblock %}

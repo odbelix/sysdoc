@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * AppBundle\Entity\PeriodActivity
  *
  * @ORM\Entity()
- * @ORM\Table(name="period_activity", indexes={@ORM\Index(name="fk_activity_duration1_idx", columns={"duration_id"})})
+ * @ORM\Table(name="period_activity", indexes={@ORM\Index(name="fk_activity_duration1_idx", columns={"duration_id"}), @ORM\Index(name="fk_period_activity_period_calendar1_idx", columns={"period_calendar_id"})})
  */
 class PeriodActivity
 {
@@ -40,10 +40,26 @@ class PeriodActivity
     protected $duration_id;
 
     /**
+     * @ORM\Column(name="`position`", type="integer", nullable=true)
+     */
+    protected $position;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $period_calendar_id;
+
+    /**
      * @ORM\ManyToOne(targetEntity="PeriodDuration", inversedBy="periodActivities")
      * @ORM\JoinColumn(name="duration_id", referencedColumnName="id")
      */
     protected $periodDuration;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="PeriodCalendar", inversedBy="periodActivities")
+     * @ORM\JoinColumn(name="period_calendar_id", referencedColumnName="id")
+     */
+    protected $periodCalendar;
 
     public function __construct()
     {
@@ -165,6 +181,52 @@ class PeriodActivity
     }
 
     /**
+     * Set the value of position.
+     *
+     * @param integer $position
+     * @return \AppBundle\Entity\PeriodActivity
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of position.
+     *
+     * @return integer
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Set the value of period_calendar_id.
+     *
+     * @param integer $period_calendar_id
+     * @return \AppBundle\Entity\PeriodActivity
+     */
+    public function setPeriodCalendarId($period_calendar_id)
+    {
+        $this->period_calendar_id = $period_calendar_id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of period_calendar_id.
+     *
+     * @return integer
+     */
+    public function getPeriodCalendarId()
+    {
+        return $this->period_calendar_id;
+    }
+
+    /**
      * Set PeriodDuration entity (many to one).
      *
      * @param \AppBundle\Entity\PeriodDuration $periodDuration
@@ -187,8 +249,31 @@ class PeriodActivity
         return $this->periodDuration;
     }
 
+    /**
+     * Set PeriodCalendar entity (many to one).
+     *
+     * @param \AppBundle\Entity\PeriodCalendar $periodCalendar
+     * @return \AppBundle\Entity\PeriodActivity
+     */
+    public function setPeriodCalendar(PeriodCalendar $periodCalendar = null)
+    {
+        $this->periodCalendar = $periodCalendar;
+
+        return $this;
+    }
+
+    /**
+     * Get PeriodCalendar entity (many to one).
+     *
+     * @return \AppBundle\Entity\PeriodCalendar
+     */
+    public function getPeriodCalendar()
+    {
+        return $this->periodCalendar;
+    }
+
     public function __sleep()
     {
-        return array('id', 'startdate', 'enddate', 'description', 'duration_id');
+        return array('id', 'startdate', 'enddate', 'description', 'duration_id', 'position', 'period_calendar_id');
     }
 }

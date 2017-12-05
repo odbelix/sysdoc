@@ -6,6 +6,8 @@ use AppBundle\Entity\Regulation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\File;
+
 
 /**
  * Regulation controller.
@@ -28,6 +30,7 @@ class RegulationController extends Controller
 
         return $this->render('regulation/index.html.twig', array(
             'regulations' => $regulations,
+            'breadcrumbs' => array(0 => array('title' => 'Reglamentos'))
         ));
     }
 
@@ -44,6 +47,16 @@ class RegulationController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $file = $regulation->getDocument();
+            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+
+            $file->move(
+                $this->getParameter('document_directory'),
+                $fileName
+            );
+            $regulation->setDocument($fileName);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($regulation);
             $em->flush();
@@ -54,6 +67,8 @@ class RegulationController extends Controller
         return $this->render('regulation/new.html.twig', array(
             'regulation' => $regulation,
             'form' => $form->createView(),
+            'breadcrumbs' => array(0 => array('title' => 'Reglamentos','href' => $this->generateUrl('regulation_index'))
+                            ,1 => array('title' => 'Nuevo Reglamento'))
         ));
     }
 
@@ -70,6 +85,8 @@ class RegulationController extends Controller
         return $this->render('regulation/show.html.twig', array(
             'regulation' => $regulation,
             'delete_form' => $deleteForm->createView(),
+            'breadcrumbs' => array(0 => array('title' => 'Reglamentos','href' => $this->generateUrl('regulation_index'))
+                            ,1 => array('title' => 'Ver'))
         ));
     }
 
@@ -81,6 +98,12 @@ class RegulationController extends Controller
      */
     public function editAction(Request $request, Regulation $regulation)
     {
+        if ($regulation->getDocument()) {
+            $regulation->setDocument(
+                new File($this->getParameter('document_directory').'/'.$regulation->getDocument())
+            );
+        }
+
         $deleteForm = $this->createDeleteForm($regulation);
         $editForm = $this->createForm('AppBundle\Form\RegulationType', $regulation);
         $editForm->handleRequest($request);
@@ -96,6 +119,8 @@ class RegulationController extends Controller
             'regulation' => $regulation,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'breadcrumbs' => array(0 => array('title' => 'Reglamentos','href' => $this->generateUrl('regulation_index'))
+                            ,1 => array('title' => 'Actualización'))
         ));
     }
 

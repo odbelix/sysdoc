@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * AppBundle\Entity\Regulation
@@ -39,6 +40,16 @@ class Regulation
      * @ORM\Column(name="`date`", type="string", length=45, nullable=true)
      */
     protected $date;
+
+    /**
+     * @ORM\Column(name="`document`", type="string", length=500, nullable=true)
+     *
+     * @Assert\NotBlank(message="Por favor, cargar el PDF de la RU.")
+     * @Assert\File(mimeTypes={ "application/pdf" })
+     */
+    protected $document;
+
+
 
     /**
      * @ORM\Column(type="datetime")
@@ -222,6 +233,19 @@ class Regulation
     {
         return $this->updated_at;
     }
+
+    public function getDocument()
+    {
+        return $this->document;
+    }
+
+    public function setDocument($document)
+    {
+        $this->document = $document;
+
+        return $this;
+    }
+
 
     /**
      * Add RegulationArt entity to collection (one to many).
