@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Meetingagreement</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ meetingAgreement.id }}</td>
+            </tr>
+            <tr>
+                <th>Agreement</th>
+                <td>{{ meetingAgreement.agreement }}</td>
+            </tr>
+            <tr>
+                <th>Meeting_id</th>
+                <td>{{ meetingAgreement.meetingid }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('meetingagreement_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('meetingagreement_edit', { 'id': meetingAgreement.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
