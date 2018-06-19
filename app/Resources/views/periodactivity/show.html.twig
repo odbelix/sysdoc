@@ -2,41 +2,46 @@
 
 {% block body %}
 {% include 'breadcrumb.html.twig' with {'breadcrumbs': breadcrumbs} %}
-    <h1>Actividad</h1>
-    <table table="table table-bordered">
-        <tbody>
-            <tr>
-                <th>Startdate</th>
-                <td>{% if periodActivity.startdate %}{{ periodActivity.startdate|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Enddate</th>
-                <td>{% if periodActivity.enddate %}{{ periodActivity.enddate|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ periodActivity.description | raw }}</td>
-            </tr>
-            <tr>
-                <th>Duration_id</th>
-                <td>{{ periodActivity.durationid }}</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="row">
+    <div class="col-12">
+    <h1>Edición</h1>
+    <h3><a class="btn btn-info" href="{{ path('periodactivity_index', { 'id': calendar.id }) }}"><i class="fa fa-arrow-left"></i></a></h3>
+    <div class="form-group">
+        <label>Fecha inicio:</label>
+        {% if periodActivity.startdate %}{{ periodActivity.startdate|date('Y-m-d H:i:s') }}{% endif %}
+    </div>
+    <div class="form-group">
+        <label>Fecha Termino:</label>
+        {% if periodActivity.enddate %}{{ periodActivity.enddate|date('Y-m-d H:i:s') }}{% endif %}
+    </div>
+    <div class="form-group">
+        <label>Descripción:</label>
+        {{ periodActivity.description | raw }}
+    </div>
+    <div class="form-group">
+        <label>Calendario:</label>
+        {{ periodActivity.periodCalendar }}
+    </div>
+    <div class="form-group">
+        <label>Duración:</label>
+        {{ periodActivity.durationid }}
+    </div>
+    </div>
+</div>
 
     <ul>
         <li>
-            <a href="{{ path('periodactivity_new') }}">New</a>
+            <a href="{{ path('periodactivity_new', { 'id': calendar.id }) }}">New</a>
         </li>
         <li>
-            <a href="{{ path('periodactivity_index') }}">Back to the list</a>
+            <a href="{{ path('periodactivity_index', { 'id': calendar.id }) }}">Back to the list</a>
         </li>
         <li>
             <a href="{{ path('periodactivity_edit', { 'id': periodActivity.id }) }}">Edit</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+                <input class="btn btn-danger" type="submit" value="Eliminar">
             {{ form_end(delete_form) }}
         </li>
     </ul>

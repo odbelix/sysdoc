@@ -32,7 +32,7 @@
                 <td>{{ periodCalendar.identify }}</td>
                 <td>
                     {% if periodCalendar.periodActivities|length > 0 %}
-                        {{ periodCalendar.periodActivities|length }} <a class="btn btn-warning" href="{{ path('periodactivity_index') }}"><i class="fa fa-fw fa-eye"></i></a>
+                        {{ periodCalendar.periodActivities|length }} <a class="btn btn-warning" href="{{ path('periodactivity_index', { 'id': periodCalendar.id }) }}"><i class="fa fa-fw fa-eye"></i></a>
                     {% else %}
                         Sin actividades Registradas
                     {% endif %}

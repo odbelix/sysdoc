@@ -11,9 +11,9 @@
     <div class="col-12">
         <h1>Actividades - Calendario académico</h1>
         <h3>
-            <a class="btn btn-success" href="{{ path('periodactivity_new') }}"><i class="fa fa-fw fa-plus"></i></a>
-            <a class="btn btn-info" href="{{ path('periodactivity_print') }}"><i class="fa fa-fw fa-print"></i></a>
-            <a class="btn btn-warning" href="{{ path('periodactivity_printadm') }}"><i class="fa fa-fw fa-print"></i></a>
+            <a class="btn btn-success" href="{{ path('periodactivity_new', { 'id': calendar.id }) }}"><i class="fa fa-fw fa-plus"></i></a>
+            <a class="btn btn-info" href="{{ path('periodactivity_print',{ 'id': calendar.id }) }}"><i class="fa fa-fw fa-print"></i></a>
+            <a class="btn btn-warning" href="{{ path('periodactivity_printadm',{ 'id': calendar.id }) }}"><i class="fa fa-fw fa-print"></i></a>
         </h3>
         <table id="calendario" class="table table-bordered">
             <thead>
@@ -21,6 +21,7 @@
                     <th>Mes</th>
                     <th>Inicio</th>
                     <th>Termino</th>
+                    <th>Diferencia (Días/Semanas)</th>
                     <th>Actividad</th>
                     <th class="hidden-print">Opciones</th>
                 </tr>
@@ -36,12 +37,27 @@
                     <td>{{months[periodActivity.startdate|date('m')]}}</td>
                     <td>{{days[periodActivity.startdate|date('N')]}} {% if periodActivity.startdate %}{{ periodActivity.startdate|date('d/m') }}{% endif %}</td>
                     <td>{% if periodActivity.enddate %} {{days[periodActivity.enddate|date('N')]}} {{ periodActivity.enddate|date('d/m') }}{% endif %}</td>
+                    <td>
+                    {% if periodActivity.enddate %}
+                        {% set difference = date(periodActivity.enddate).diff(date(periodActivity.startdate)) %}
+                        {% set leftDays = difference.days + 1 %}
+                        {% if leftDays == 1 %}
+                            1 día
+                        {% else %}
+                            {{ leftDays }} días / 
+                            {% if leftDays > 7 %}
+                                {{ (leftDays/7)|round }} semanas
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
                     <td>{{ periodActivity.description | raw }}</td>
                     <td class="hidden-print">
                         <div class="btn-group" role="group" aria-label="...">
                             <a class="btn btn-info" href="{{ path('periodactivity_show', { 'id': periodActivity.id }) }}">Ver</a>
                             <a class="btn btn-primary" href="{{ path('periodactivity_edit', { 'id': periodActivity.id }) }}">Editar</a>
-                            <a class="btn btn-success" href="{{ path('periodactivity_duplicate', { 'id': periodActivity.id }) }}">Duplicar</a>
+                            <a class="btn btn-success" href="{{ path('periodactivity_duplicate', { 'id': periodActivity.id}) }}">Duplicar</a>
                         </div>
                     </td>
                 </tr>

@@ -28,6 +28,7 @@ class PeriodActivityType extends AbstractType
                     'years' => range(date('Y'), date('Y')+1),
                     'label' => 'Fecha Termino'
                     ))
+            ->add('periodCalendar')
             ->add('description',TextareaType::class, array(
                 'attr' => array('placeholder' => 'Actividad',
                             'maxlength' => 500,
@@ -38,7 +39,7 @@ class PeriodActivityType extends AbstractType
                 'class' => 'AppBundle:PeriodDuration',
                 'attr' => array('placeholder' => 'Duración'),
                 'label' => 'Duración'));*/
-                ->add('periodDuration');
+            ->add('periodDuration');
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\PeriodActivity;
+use AppBundle\Entity\PeriodCalendar;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
@@ -17,10 +18,10 @@ class PeriodActivityController extends Controller
     /**
      * Lists all periodActivity entities.
      *
-     * @Route("/", name="periodactivity_index")
+     * @Route("/{id}", name="periodactivity_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request,PeriodCalendar $calendar)
     {
         $em = $this->getDoctrine()->getManager();
         $months = array('01' => 'Enero', '02' => 'Febrero','03' => 'Marzo','04' => 'Abril',
@@ -30,12 +31,14 @@ class PeriodActivityController extends Controller
         5 => 'Viernes',6 => 'Sabado' ,7 => 'Domingo');
 
         //$periodActivities = $em->getRepository('AppBundle:PeriodActivity')->findAll();
-        $periodActivities = $em->getRepository('AppBundle:PeriodActivity')->findBy([], ['startdate' => 'ASC','enddate' => 'ASC']);
+        //$periodActivities = $em->getRepository('AppBundle:PeriodActivity')->findBy(['period_calendar_id' => $calendar->getId()], ['startdate' => 'ASC','enddate' => 'ASC']);
+        $periodActivities = $em->getRepository('AppBundle:PeriodActivity')->findBy(['period_calendar_id' => $calendar->getId()], ['startdate' => 'ASC']);
 
         return $this->render('periodactivity/index.html.twig', array(
             'periodActivities' => $periodActivities,
             'months' => $months,
             'days' => $days,
+            'calendar' => $calendar,
             'breadcrumbs' => array(0 => array('title' => 'Calendario académico'))
         ));
     }
@@ -43,10 +46,10 @@ class PeriodActivityController extends Controller
     /**
      * Lists for print all periodActivity entities.
      *
-     * @Route("/print", name="periodactivity_print")
+     * @Route("/print/{id}", name="periodactivity_print")
      * @Method("GET")
      */
-    public function printAction()
+    public function printAction(Request $request,PeriodCalendar $calendar)
     {
         $em = $this->getDoctrine()->getManager();
         $months = array('01' => 'Enero', '02' => 'Febrero','03' => 'Marzo','04' => 'Abril',
@@ -56,7 +59,8 @@ class PeriodActivityController extends Controller
         5 => 'Viernes',6 => 'Sabado' ,7 => 'Domingo');
 
         //$periodActivities = $em->getRepository('AppBundle:PeriodActivity')->findAll();
-        $periodActivities = $em->getRepository('AppBundle:PeriodActivity')->findBy([], ['startdate' => 'ASC','enddate' => 'ASC']);
+        //$periodActivities = $em->getRepository('AppBundle:PeriodActivity')->findBy([], ['startdate' => 'ASC','enddate' => 'ASC']);
+        $periodActivities = $em->getRepository('AppBundle:PeriodActivity')->findBy(['period_calendar_id' => $calendar->getId()], ['startdate' => 'ASC']);
 
         return $this->render('periodactivity/print.html.twig', array(
             'periodActivities' => $periodActivities,
@@ -68,10 +72,10 @@ class PeriodActivityController extends Controller
     /**
      * Lists for print all periodActivity entities, admin view
      *
-     * @Route("/print/adm", name="periodactivity_printadm")
+     * @Route("/print/adm/{id}", name="periodactivity_printadm")
      * @Method("GET")
      */
-    public function printAdmAction()
+    public function printAdmAction(Request $request,PeriodCalendar $calendar)
     {
         $em = $this->getDoctrine()->getManager();
         $months = array('01' => 'Enero', '02' => 'Febrero','03' => 'Marzo','04' => 'Abril',
@@ -81,7 +85,8 @@ class PeriodActivityController extends Controller
         5 => 'Viernes',6 => 'Sabado' ,7 => 'Domingo');
 
         //$periodActivities = $em->getRepository('AppBundle:PeriodActivity')->findAll();
-        $periodActivities = $em->getRepository('AppBundle:PeriodActivity')->findBy([], ['startdate' => 'ASC','enddate' => 'ASC']);
+        //$periodActivities = $em->getRepository('AppBundle:PeriodActivity')->findBy([], ['startdate' => 'ASC','enddate' => 'ASC']);
+        $periodActivities = $em->getRepository('AppBundle:PeriodActivity')->findBy(['period_calendar_id' => $calendar->getId()], ['startdate' => 'ASC']);
 
         return $this->render('periodactivity/print-adm.html.twig', array(
             'periodActivities' => $periodActivities,
@@ -93,10 +98,10 @@ class PeriodActivityController extends Controller
     /**
      * Creates a new periodActivity entity.
      *
-     * @Route("/new", name="periodactivity_new")
+     * @Route("/new/{id}", name="periodactivity_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request,PeriodCalendar $calendar)
     {
         $periodActivity = new Periodactivity();
         $form = $this->createForm('AppBundle\Form\PeriodActivityType', $periodActivity);
@@ -113,8 +118,9 @@ class PeriodActivityController extends Controller
         return $this->render('periodactivity/new.html.twig', array(
             'periodActivity' => $periodActivity,
             'form' => $form->createView(),
+            'calendar' => $calendar,
             'breadcrumbs' => array(
-                0 => array('title' => 'Calendario académico', 'href' => $this->generateUrl('periodactivity_index')),
+                0 => array('title' => 'Calendario académico', 'href' => $this->generateUrl('periodactivity_index',array('id' => $calendar->getId()) )),
                 1 => array('title' => 'Nueva')
             )
         ));
@@ -133,6 +139,9 @@ class PeriodActivityController extends Controller
         $periodActivity->setEnddate($base->getEnddate());
         $periodActivity->setDescription($base->getDescription());
 
+        $calendar = new PeriodCalendar();
+        $calendar = $base->getPeriodCalendar();
+
         $form = $this->createForm('AppBundle\Form\PeriodActivityType', $periodActivity);
         $form->handleRequest($request);
 
@@ -141,14 +150,15 @@ class PeriodActivityController extends Controller
             $em->persist($periodActivity);
             $em->flush();
 
-            return $this->redirectToRoute('periodactivity_show', array('id' => $periodActivity->getId()));
+            //return $this->redirectToRoute('periodactivity_show', array('id' => $periodActivity->getId()));
         }
 
         return $this->render('periodactivity/new.html.twig', array(
             'periodActivity' => $periodActivity,
             'form' => $form->createView(),
+            'calendar' => $calendar,
             'breadcrumbs' => array(
-                0 => array('title' => 'Calendario académico', 'href' => $this->generateUrl('periodactivity_index')),
+                0 => array('title' => 'Calendario académico', 'href' => $this->generateUrl('periodactivity_index',array('id' => $calendar->getId() ))),
                 1 => array('title' => 'Nueva')
             )
         ));
@@ -157,18 +167,21 @@ class PeriodActivityController extends Controller
     /**
      * Finds and displays a periodActivity entity.
      *
-     * @Route("/{id}", name="periodactivity_show")
+     * @Route("/show/{id}", name="periodactivity_show")
      * @Method("GET")
      */
     public function showAction(PeriodActivity $periodActivity)
     {
         $deleteForm = $this->createDeleteForm($periodActivity);
+        $calendar = new PeriodCalendar();
+        $calendar = $periodActivity->getPeriodCalendar();
 
         return $this->render('periodactivity/show.html.twig', array(
             'periodActivity' => $periodActivity,
             'delete_form' => $deleteForm->createView(),
+            'calendar' => $calendar,
             'breadcrumbs' => array(
-                0 => array('title' => 'Calendario académico', 'href' => $this->generateUrl('periodactivity_index')),
+                0 => array('title' => 'Calendario académico', 'href' => $this->generateUrl('periodactivity_index', array('id' => $calendar->getId() ))),
                 1 => array('title' => 'Ver')
             )
         ));
@@ -186,6 +199,9 @@ class PeriodActivityController extends Controller
         $editForm = $this->createForm('AppBundle\Form\PeriodActivityType', $periodActivity);
         $editForm->handleRequest($request);
 
+        $calendar = new PeriodCalendar();
+        $calendar = $periodActivity->getPeriodCalendar();
+
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
@@ -194,10 +210,11 @@ class PeriodActivityController extends Controller
 
         return $this->render('periodactivity/edit.html.twig', array(
             'periodActivity' => $periodActivity,
+            'calendar' => $calendar,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'breadcrumbs' => array(
-                0 => array('title' => 'Calendario académico', 'href' => $this->generateUrl('periodactivity_index')),
+                0 => array('title' => 'Calendario académico', 'href' => $this->generateUrl('periodactivity_index',array('id' => $calendar->getId()))),
                 1 => array('title' => 'Editar')
             )
         ));
@@ -214,13 +231,15 @@ class PeriodActivityController extends Controller
         $form = $this->createDeleteForm($periodActivity);
         $form->handleRequest($request);
 
+        $id = $periodActivity->getPeriodCalendarId();
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($periodActivity);
             $em->flush();
         }
 
-        return $this->redirectToRoute('periodactivity_index');
+        return $this->redirectToRoute('periodactivity_index',array('id' => $id ));
     }
 
     /**

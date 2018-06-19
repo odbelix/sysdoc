@@ -150,4 +150,9 @@ class PeriodCalendar
     {
         return array('id', 'name', 'identify');
     }
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
 }

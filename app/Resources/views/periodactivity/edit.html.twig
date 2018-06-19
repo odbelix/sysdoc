@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-12">
     <h1>Edición</h1>
-    <h3><a class="btn btn-info" href="{{ path('periodactivity_index') }}"><i class="fa fa-arrow-left"></i></a></h3>
+    <h3><a class="btn btn-info" href="{{ path('periodactivity_index', { 'id': calendar.id }) }}"><i class="fa fa-arrow-left"></i></a></h3>
 
     {{ form_start(edit_form, {'attr': {'novalidate': 'novalidate'}}) }}
     <div class="form-group">
@@ -16,6 +16,9 @@
     </div>
     <div class="form-group">
         {{ form_row(edit_form.description,{'attr': {'class':'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(edit_form.periodCalendar,{'attr': {'class':'form-control'}}) }}
     </div>
     <div class="form-group">
         {{ form_row(edit_form.periodDuration,{'attr': {'class':'form-control'}}) }}
