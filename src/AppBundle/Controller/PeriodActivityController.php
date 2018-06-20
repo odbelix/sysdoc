@@ -34,6 +34,7 @@ class PeriodActivityController extends Controller
         //$periodActivities = $em->getRepository('AppBundle:PeriodActivity')->findBy(['period_calendar_id' => $calendar->getId()], ['startdate' => 'ASC','enddate' => 'ASC']);
         $periodActivities = $em->getRepository('AppBundle:PeriodActivity')->findBy(['period_calendar_id' => $calendar->getId()], ['startdate' => 'ASC']);
 
+
         return $this->render('periodactivity/index.html.twig', array(
             'periodActivities' => $periodActivities,
             'months' => $months,
@@ -94,6 +95,77 @@ class PeriodActivityController extends Controller
             'days' => $days
         ));
     }
+
+    /**
+     * Lists for print all periodActivity entities.
+     *
+     * @Route("/print/calendar/{id}", name="periodactivity_print_calendar")
+     * @Method("GET")
+     */
+    public function printCalendarAction(Request $request,PeriodCalendar $calendar)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $months = array('01' => 'Enero', '02' => 'Febrero','03' => 'Marzo','04' => 'Abril',
+        '05' => 'Mayo','06' => 'Junio' ,'07' => 'Julio' ,'08' => 'Agosto',
+        '09' => 'Septiembre' ,'10'=> 'Octubre','11' => 'Noviembre','12' => 'Diciembre');
+        $days = array(1 => 'Lunes', 2 => 'Martes',3 => 'Miércoles',4 => 'Jueves',
+        5 => 'Viernes',6 => 'Sabado' ,7 => 'Domingo');
+
+        //$periodActivities = $em->getRepository('AppBundle:PeriodActivity')->findAll();
+        //$periodActivities = $em->getRepository('AppBundle:PeriodActivity')->findBy([], ['startdate' => 'ASC','enddate' => 'ASC']);
+        $periodActivitiesStart = $em->getRepository('AppBundle:PeriodActivity')->findBy(['period_calendar_id' => $calendar->getId()], ['startdate' => 'ASC']);
+        $periodActivitiesEnd = $em->getRepository('AppBundle:PeriodActivity')->findBy(['period_calendar_id' => $calendar->getId()], ['startdate' => 'DESC']);
+        $periodActivities = $em->getRepository('AppBundle:PeriodActivity')->findBy(['period_calendar_id' => $calendar->getId()], ['startdate' => 'ASC']);
+        $start = $periodActivitiesStart[0]->getStartdate();
+        $end = $periodActivitiesEnd[0]->getStartdate();
+
+        $output = array();
+        $logger = $this->get('logger');
+        $temp = clone $start;
+        while ( $temp <= $end) {
+            $data = array();
+            $data['date'] = new \DateTime();
+            $data['date'] = clone $temp;
+            $activities = array();
+            foreach ($periodActivities as $activity) {
+                //Check if is one date
+                if ( $activity->getEndDate() ==  null) {
+                    if ($temp->format('Y-m-d') == $activity->getStartDate()->format('Y-m-d')){
+                        $logger->info($temp->format('Y-m-d H:i:s').' == '.$activity->getStartDate()->format('Y-m-d H:i:s'));
+                        $activities[] = $activity;
+                    }
+                }
+                else {
+                    $diff = date_diff($activity->getEndDate(),$activity->getStartDate());
+                    if ($temp->format('Y-m-d') >= $activity->getStartDate()->format('Y-m-d')
+                        && $temp->format('Y-m-d') <= $activity->getEndDate()->format('Y-m-d')
+                         && $diff->d < 15
+                    ){
+                        $logger->info($temp->format('Y-m-d H:i:s').' == '.$activity->getStartDate()->format('Y-m-d H:i:s'));
+                        $activities[] = $activity;
+                    }
+                }
+            }
+            $logger->info(count($activities));
+            if ( count($activities) != 0 )
+                $data['objects'] = $activities;
+            else
+                $data['objects'] = null;
+
+            $output[] = $data;
+            $temp = $temp->modify('+1 day');
+        }
+
+        return $this->render('periodactivity/print-calendar.html.twig', array(
+            'periodActivities' => $periodActivities,
+            'schedule' => $output,
+            'startdate' => $start,
+            'enddate' => $end,
+            'months' => $months,
+            'days' => $days
+        ));
+    }
+
 
     /**
      * Creates a new periodActivity entity.
