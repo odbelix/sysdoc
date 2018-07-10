@@ -12,9 +12,9 @@
         <h1>Actividades - Calendario académico</h1>
         <h3>
             <a class="btn btn-success" href="{{ path('periodactivity_new', { 'id': calendar.id }) }}"><i class="fa fa-fw fa-plus"></i></a>
-            <a class="btn btn-info" href="{{ path('periodactivity_print',{ 'id': calendar.id }) }}"><i class="fa fa-fw fa-print"></i></a>
-            <a class="btn btn-warning" href="{{ path('periodactivity_printadm',{ 'id': calendar.id }) }}"><i class="fa fa-fw fa-print"></i></a>
-            <a class="btn btn-default" href="{{ path('periodactivity_print_calendar',{ 'id': calendar.id }) }}"><i class="fa fa-fw fa-print"></i></a>
+            <a class="btn btn-info" label="Print" href="{{ path('periodactivity_print',{ 'id': calendar.id }) }}"><i class="fa fa-fw fa-print"></i></a>
+            <a class="btn btn-warning" label="Print ADM" href="{{ path('periodactivity_printadm',{ 'id': calendar.id }) }}"><i class="fa fa-fw fa-print"></i></a>
+            <a class="btn btn-primary" label="Print schedule" href="{{ path('periodactivity_print_calendar',{ 'id': calendar.id }) }}"><i class="fa fa-fw fa-print"></i></a>
         </h3>
         <table id="calendario" class="table table-bordered">
             <thead>

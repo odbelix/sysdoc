@@ -119,33 +119,85 @@ class PeriodActivityController extends Controller
         $start = $periodActivitiesStart[0]->getStartdate();
         $end = $periodActivitiesEnd[0]->getStartdate();
 
+        $start = $start->modify('last sunday +1 day');
+        $end = $end->modify('next sunday');
+
+
         $output = array();
         $logger = $this->get('logger');
         $temp = clone $start;
-        while ( $temp <= $end) {
+        $lastday = $end->modify('+1 day');
+        while ( $temp <= $end ) {
             $data = array();
             $data['date'] = new \DateTime();
             $data['date'] = clone $temp;
+            $logger->info('OUTPUT Temp:'.$temp->format('Y-m-d H:i:s'));
             $activities = array();
             foreach ($periodActivities as $activity) {
-                //Check if is one date
-                if ( $activity->getEndDate() ==  null) {
-                    if ($temp->format('Y-m-d') == $activity->getStartDate()->format('Y-m-d')){
-                        $logger->info($temp->format('Y-m-d H:i:s').' == '.$activity->getStartDate()->format('Y-m-d H:i:s'));
+                $diff = null;
+                //1) Check if TEMP is the StartDate
+                $logger->info($temp->format('Y-m-d H:i:s').' ? '.$activity->getStartDate()->format('Y-m-d H:i:s'));
+                if ($temp->format('Y-m-d') == $activity->getStartDate()->format('Y-m-d') ){
+                    if ( $activity->getEndDate() ==  null) {
+                        $logger->info($temp->format('Y-m-d H:i:s').' IGUALES SIN FECHA FIN '.$activity->getStartDate()->format('Y-m-d H:i:s'));
                         $activities[] = $activity;
                     }
+                    else {
+                        //When has a ENDDATE and the different is more that 14 days. then contact the end date to de descripcion
+                        $diff = date_diff($activity->getEndDate(),$activity->getStartDate());
+                        if ( $diff->days >=  14 ) {
+                            $activity->setDescription($activity->getDescription(). '(Hasta: '.$activity->getEndDate()->format('d/m/Y').')');
+                        }
+                        $activities[] = $activity;
+                    }
+        //            $logger->info($temp->format('Y-m-d H:i:s').' IGUALES SIN FECHA FIN '.$activity->getStartDate()->format('Y-m-d H:i:s'));
+        //            $activities[] = $activity;
                 }
                 else {
-                    $diff = date_diff($activity->getEndDate(),$activity->getStartDate());
-                    if ($temp->format('Y-m-d') >= $activity->getStartDate()->format('Y-m-d')
-                        && $temp->format('Y-m-d') <= $activity->getEndDate()->format('Y-m-d')
-                         && $diff->d < 15
-                    ){
-                        $logger->info($temp->format('Y-m-d H:i:s').' == '.$activity->getStartDate()->format('Y-m-d H:i:s'));
-                        $activities[] = $activity;
+                    if ( $activity->getEndDate() !=  null) {
+                        $diff = date_diff($activity->getEndDate(),$activity->getStartDate());
+                        $interval = $activity->getEndDate()->diff($activity->getStartDate());
+
+                        if ($temp->format('Y-m-d') > $activity->getStartDate()->format('Y-m-d')
+                            && $temp->format('Y-m-d') <= $activity->getEndDate()->format('Y-m-d')
+                             && $diff->days < 14
+                        ){
+                            $logger->info('d = ('.$diff->d.'/'.$interval->format('%a días').' / '.$interval->days.') id='.$activity->getId().' '.$temp->format('Y-m-d H:i:s').' == >= <= d<14 START:'.$activity->getStartDate()->format('Y-m-d H:i:s')
+                            .' END '.$activity->getEndDate()->format('Y-m-d')
+                        );
+                            $activities[] = $activity;
+                        }
                     }
                 }
+                // if ( $activity->getEndDate() ==  null) {
+                //     if ($temp->format('Y-m-d') == $activity->getStartDate()->format('Y-m-d')){
+                //         $logger->info($temp->format('Y-m-d H:i:s').' IGUALES SIN FECHA FIN '.$activity->getStartDate()->format('Y-m-d H:i:s'));
+                //         $activities[] = $activity;
+                //     }
+                // }
+                // if ( $activity->getEndDate() != null)  {
+                //     if ($temp->format('Y-m-d') == $activity->getStartDate()->format('Y-m-d')){
+                //         $logger->info($temp->format('Y-m-d H:i:s').' IGUALES SIN FECHA FIN '.$activity->getStartDate()->format('Y-m-d H:i:s'));
+                //         $activities[] = $activity;
+                //     }
+                //
+                //     //$logger->info('OUTPUT activity end:'.$activity->getEndDate()->format('Y-m-d'));
+                //     $diff = date_diff($activity->getEndDate(),$activity->getStartDate());
+                //     $interval = $activity->getEndDate()->diff($activity->getStartDate());
+                //
+                //     if ($temp->format('Y-m-d') > $activity->getStartDate()->format('Y-m-d')
+                //         && $temp->format('Y-m-d') <= $activity->getEndDate()->format('Y-m-d')
+                //          && $diff->days < 14
+                //     ){
+                //         $logger->info('d = ('.$diff->d.'/'.$interval->format('%a días').' / '.$interval->days.') id='.$activity->getId().' '.$temp->format('Y-m-d H:i:s').' == >= <= d<14 START:'.$activity->getStartDate()->format('Y-m-d H:i:s')
+                //         .' END '.$activity->getEndDate()->format('Y-m-d')
+                //     );
+                //         $activities[] = $activity;
+                //     }
+                //}
             }
+
+
             $logger->info(count($activities));
             if ( count($activities) != 0 )
                 $data['objects'] = $activities;
