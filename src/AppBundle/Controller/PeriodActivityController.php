@@ -274,7 +274,7 @@ class PeriodActivityController extends Controller
             $em->persist($periodActivity);
             $em->flush();
 
-            //return $this->redirectToRoute('periodactivity_show', array('id' => $periodActivity->getId()));
+            return $this->redirectToRoute('periodactivity_show', array('id' => $periodActivity->getId()));
         }
 
         return $this->render('periodactivity/new.html.twig', array(

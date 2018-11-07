@@ -292,4 +292,9 @@ class Proccess
     {
         return array('id', 'name', 'description', 'id_parent', 'created_at');
     }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }
