@@ -30,7 +30,7 @@
             <tbody>
             {% set month = '' %}
             {% for periodActivity in periodActivities %}
-                {% if 'Feriado' in periodActivity.description %}
+                {% if 'Feriado' in periodActivity.description or 'Receso' in periodActivity.description %}
                 <tr class="table-warning">
                 {% else %}
                 <tr>
