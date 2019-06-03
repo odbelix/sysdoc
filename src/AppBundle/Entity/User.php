@@ -3,14 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use FOS\UserBundle\Model\User as BaseUser;
+
 /**
  * AppBundle\Entity\User
  *
  * @ORM\Entity()
  * @ORM\Table(name="`user`")
  */
-class User extends BaseUser
+class User
 {
     /**
      * @ORM\Id

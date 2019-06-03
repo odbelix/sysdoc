@@ -6,33 +6,32 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * AppBundle\Entity\PeriodCalendar
+ * AppBundle\Entity\TTipoDuracion
  *
  * @ORM\Entity()
- * @ORM\Table(name="period_calendar")
+ * @ORM\Table(name="t_tipo_duracion")
  */
-class PeriodCalendar
+class TTipoDuracion
 {
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected $ttd_codigo;
 
     /**
-     * @ORM\Column(name="`name`", type="string", length=200)
+     * @ORM\Column(type="string", length=45, nullable=true)
      */
-    protected $name;
+    protected $ttd_descripcion;
 
     /**
-     * @ORM\Column(type="string", length=4)
+     * @ORM\Column(type="string", length=2, nullable=true)
      */
-    protected $identify;
+    protected $ttd_vigencia;
 
     /**
-     * @ORM\OneToMany(targetEntity="PeriodActivity", mappedBy="periodCalendar")
-     * @ORM\JoinColumn(name="id", referencedColumnName="period_calendar_id", nullable=false)
+     * @ORM\OneToMany(targetEntity="PeriodActivity", mappedBy="tTipoDuracion")
+     * @ORM\JoinColumn(name="ttd_codigo", referencedColumnName="ttd_codigo", nullable=false)
      */
     protected $periodActivities;
 
@@ -42,79 +41,79 @@ class PeriodCalendar
     }
 
     /**
-     * Set the value of id.
+     * Set the value of ttd_codigo.
      *
-     * @param integer $id
-     * @return \AppBundle\Entity\PeriodCalendar
+     * @param integer $ttd_codigo
+     * @return \AppBundle\Entity\TTipoDuracion
      */
-    public function setId($id)
+    public function setTtdCodigo($ttd_codigo)
     {
-        $this->id = $id;
+        $this->ttd_codigo = $ttd_codigo;
 
         return $this;
     }
 
     /**
-     * Get the value of id.
+     * Get the value of ttd_codigo.
      *
      * @return integer
      */
-    public function getId()
+    public function getTtdCodigo()
     {
-        return $this->id;
+        return $this->ttd_codigo;
     }
 
     /**
-     * Set the value of name.
+     * Set the value of ttd_descripcion.
      *
-     * @param string $name
-     * @return \AppBundle\Entity\PeriodCalendar
+     * @param string $ttd_descripcion
+     * @return \AppBundle\Entity\TTipoDuracion
      */
-    public function setName($name)
+    public function setTtdDescripcion($ttd_descripcion)
     {
-        $this->name = $name;
+        $this->ttd_descripcion = $ttd_descripcion;
 
         return $this;
     }
 
     /**
-     * Get the value of name.
+     * Get the value of ttd_descripcion.
      *
      * @return string
      */
-    public function getName()
+    public function getTtdDescripcion()
     {
-        return $this->name;
+        return $this->ttd_descripcion;
     }
 
     /**
-     * Set the value of identify.
+     * Set the value of ttd_vigencia.
      *
-     * @param string $identify
-     * @return \AppBundle\Entity\PeriodCalendar
+     * @param string $ttd_vigencia
+     * @return \AppBundle\Entity\TTipoDuracion
      */
-    public function setIdentify($identify)
+    public function setTtdVigencia($ttd_vigencia)
     {
-        $this->identify = $identify;
+        $this->ttd_vigencia = $ttd_vigencia;
 
         return $this;
     }
 
     /**
-     * Get the value of identify.
+     * Get the value of ttd_vigencia.
      *
      * @return string
      */
-    public function getIdentify()
+    public function getTtdVigencia()
     {
-        return $this->identify;
+        return $this->ttd_vigencia;
     }
 
     /**
      * Add PeriodActivity entity to collection (one to many).
      *
      * @param \AppBundle\Entity\PeriodActivity $periodActivity
-     * @return \AppBundle\Entity\PeriodCalendar
+     * @return \AppBundle\Entity\TTipoDuracion
      */
     public function addPeriodActivity(PeriodActivity $periodActivity)
     {
@@ -127,7 +126,7 @@ class PeriodCalendar
      * Remove PeriodActivity entity from collection (one to many).
      *
      * @param \AppBundle\Entity\PeriodActivity $periodActivity
-     * @return \AppBundle\Entity\PeriodCalendar
+     * @return \AppBundle\Entity\TTipoDuracion
      */
     public function removePeriodActivity(PeriodActivity $periodActivity)
     {
@@ -148,6 +147,6 @@ class PeriodCalendar
 
     public function __sleep()
     {
-        return array('id', 'name', 'identify');
+        return array('ttd_codigo', 'ttd_descripcion', 'ttd_vigencia');
     }
 }

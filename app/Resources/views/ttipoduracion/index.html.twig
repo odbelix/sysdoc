@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Ttipoduracions list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ttd_codigo</th>
+                <th>Ttd_descripcion</th>
+                <th>Ttd_vigencia</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tTipoDuracion in tTipoDuracions %}
+            <tr>
+                <td><a href="{{ path('ttipoduracion_show', { 'ttd_codigo': tTipoDuracion.ttdcodigo }) }}">{{ tTipoDuracion.ttdcodigo }}</a></td>
+                <td>{{ tTipoDuracion.ttddescripcion }}</td>
+                <td>{{ tTipoDuracion.ttdvigencia }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('ttipoduracion_show', { 'ttd_codigo': tTipoDuracion.ttdcodigo }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('ttipoduracion_edit', { 'ttd_codigo': tTipoDuracion.ttdcodigo }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('ttipoduracion_new') }}">Create a new tTipoDuracion</a>
+        </li>
+    </ul>
+{% endblock %}

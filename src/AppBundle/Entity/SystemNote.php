@@ -73,8 +73,6 @@ class SystemNote
 
     public function __construct()
     {
-        $this->setCreatedAt(new \Datetime("now"));
-        $this->setUpdatedAt(new \Datetime("now"));
     }
 
     /**

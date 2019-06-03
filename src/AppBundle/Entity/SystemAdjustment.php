@@ -122,10 +122,4 @@ class SystemAdjustment
     {
         return array('id', 'name');
     }
-
-    public function __toString()
-    {
-        return $this->getName();
-    }
-
 }

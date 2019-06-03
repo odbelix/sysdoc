@@ -6,28 +6,37 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * AppBundle\Entity\PeriodDuration
+ * AppBundle\Entity\Unit
  *
  * @ORM\Entity()
- * @ORM\Table(name="period_duration")
+ * @ORM\Table(name="unit")
  */
-class PeriodDuration
+class Unit
 {
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=45, nullable=true)
+     * @ORM\Column(name="`name`", type="string", length=200, nullable=true)
      */
-    protected $title;
+    protected $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="PeriodActivity", mappedBy="periodDuration")
-     * @ORM\JoinColumn(name="id", referencedColumnName="duration_id", nullable=false)
+     * @ORM\Column(type="string", length=45, nullable=true)
+     */
+    protected $initials;
+
+    /**
+     * @ORM\Column(type="string", length=45, nullable=true)
+     */
+    protected $description;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PeriodActivity", mappedBy="unit")
+     * @ORM\JoinColumn(name="id", referencedColumnName="unit_id", nullable=false)
      */
     protected $periodActivities;
 
@@ -40,7 +49,7 @@ class PeriodDuration
      * Set the value of id.
      *
      * @param integer $id
-     * @return \AppBundle\Entity\PeriodDuration
+     * @return \AppBundle\Entity\Unit
      */
     public function setId($id)
     {
@@ -60,33 +69,79 @@ class PeriodDuration
     }
 
     /**
-     * Set the value of title.
+     * Set the value of name.
      *
-     * @param string $title
-     * @return \AppBundle\Entity\PeriodDuration
+     * @param string $name
+     * @return \AppBundle\Entity\Unit
      */
-    public function setTitle($title)
+    public function setName($name)
     {
-        $this->title = $title;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get the value of title.
+     * Get the value of name.
      *
      * @return string
      */
-    public function getTitle()
+    public function getName()
     {
-        return $this->title;
+        return $this->name;
+    }
+
+    /**
+     * Set the value of initials.
+     *
+     * @param string $initials
+     * @return \AppBundle\Entity\Unit
+     */
+    public function setInitials($initials)
+    {
+        $this->initials = $initials;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of initials.
+     *
+     * @return string
+     */
+    public function getInitials()
+    {
+        return $this->initials;
+    }
+
+    /**
+     * Set the value of description.
+     *
+     * @param string $description
+     * @return \AppBundle\Entity\Unit
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of description.
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 
     /**
      * Add PeriodActivity entity to collection (one to many).
      *
      * @param \AppBundle\Entity\PeriodActivity $periodActivity
-     * @return \AppBundle\Entity\PeriodDuration
+     * @return \AppBundle\Entity\Unit
      */
     public function addPeriodActivity(PeriodActivity $periodActivity)
     {
@@ -99,7 +154,7 @@ class PeriodDuration
      * Remove PeriodActivity entity from collection (one to many).
      *
      * @param \AppBundle\Entity\PeriodActivity $periodActivity
-     * @return \AppBundle\Entity\PeriodDuration
+     * @return \AppBundle\Entity\Unit
      */
     public function removePeriodActivity(PeriodActivity $periodActivity)
     {
@@ -120,6 +175,6 @@ class PeriodDuration
 
     public function __sleep()
     {
-        return array('id', 'title');
+        return array('id', 'name', 'initials', 'description');
     }
 }

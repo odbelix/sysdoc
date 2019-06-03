@@ -41,6 +41,17 @@ class Proccess
     protected $created_at;
 
     /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     */
+    protected $identifier;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PeriodActivity", mappedBy="proccess")
+     * @ORM\JoinColumn(name="id", referencedColumnName="proccess_id", nullable=false)
+     */
+    protected $periodActivities;
+
+    /**
      * @ORM\OneToMany(targetEntity="ProccessRegulationArt", mappedBy="proccess")
      * @ORM\JoinColumn(name="id", referencedColumnName="proccess_id", nullable=false)
      */
@@ -60,6 +71,7 @@ class Proccess
 
     public function __construct()
     {
+        $this->periodActivities = new ArrayCollection();
         $this->proccessRegulationArts = new ArrayCollection();
         $this->proccessRules = new ArrayCollection();
         $this->proccessSystems = new ArrayCollection();
@@ -181,6 +193,65 @@ class Proccess
     }
 
     /**
+     * Set the value of identifier.
+     *
+     * @param string $identifier
+     * @return \AppBundle\Entity\Proccess
+     */
+    public function setIdentifier($identifier)
+    {
+        $this->identifier = $identifier;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of identifier.
+     *
+     * @return string
+     */
+    public function getIdentifier()
+    {
+        return $this->identifier;
+    }
+
+    /**
+     * Add PeriodActivity entity to collection (one to many).
+     *
+     * @param \AppBundle\Entity\PeriodActivity $periodActivity
+     * @return \AppBundle\Entity\Proccess
+     */
+    public function addPeriodActivity(PeriodActivity $periodActivity)
+    {
+        $this->periodActivities[] = $periodActivity;
+
+        return $this;
+    }
+
+    /**
+     * Remove PeriodActivity entity from collection (one to many).
+     *
+     * @param \AppBundle\Entity\PeriodActivity $periodActivity
+     * @return \AppBundle\Entity\Proccess
+     */
+    public function removePeriodActivity(PeriodActivity $periodActivity)
+    {
+        $this->periodActivities->removeElement($periodActivity);
+
+        return $this;
+    }
+
+    /**
+     * Get PeriodActivity entity collection (one to many).
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPeriodActivities()
+    {
+        return $this->periodActivities;
+    }
+
+    /**
      * Add ProccessRegulationArt entity to collection (one to many).
      *
      * @param \AppBundle\Entity\ProccessRegulationArt $proccessRegulationArt
@@ -290,11 +361,6 @@ class Proccess
 
     public function __sleep()
     {
-        return array('id', 'name', 'description', 'id_parent', 'created_at');
-    }
-
-    public function __toString()
-    {
-        return $this->getName();
+        return array('id', 'name', 'description', 'id_parent', 'created_at', 'identifier');
     }
 }

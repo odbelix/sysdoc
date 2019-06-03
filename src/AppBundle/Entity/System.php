@@ -363,10 +363,4 @@ class System
     {
         return array('id', 'name', 'shortdescription', 'description', 'created_at', 'updated_at');
     }
-
-    public function __toString()
-    {
-        return $this->getName();
-    }
-
 }

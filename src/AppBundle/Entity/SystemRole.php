@@ -49,7 +49,6 @@ class SystemRole
     public function __construct()
     {
         $this->systemUsers = new ArrayCollection();
-        $this->setCreatedAt(new \Datetime("now"));
     }
 
     /**
