@@ -122,4 +122,9 @@ class PeriodDuration
     {
         return array('id', 'title');
     }
+
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
 }
