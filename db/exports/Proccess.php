@@ -69,12 +69,19 @@ class Proccess
      */
     protected $proccessSystems;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Question", mappedBy="proccess")
+     * @ORM\JoinColumn(name="id", referencedColumnName="proccess_id", nullable=false)
+     */
+    protected $questions;
+
     public function __construct()
     {
         $this->periodActivities = new ArrayCollection();
         $this->proccessRegulationArts = new ArrayCollection();
         $this->proccessRules = new ArrayCollection();
         $this->proccessSystems = new ArrayCollection();
+        $this->questions = new ArrayCollection();
     }
 
     /**
@@ -357,6 +364,42 @@ class Proccess
     public function getProccessSystems()
     {
         return $this->proccessSystems;
+    }
+
+    /**
+     * Add Question entity to collection (one to many).
+     *
+     * @param \AppBundle\Entity\Question $question
+     * @return \AppBundle\Entity\Proccess
+     */
+    public function addQuestion(Question $question)
+    {
+        $this->questions[] = $question;
+
+        return $this;
+    }
+
+    /**
+     * Remove Question entity from collection (one to many).
+     *
+     * @param \AppBundle\Entity\Question $question
+     * @return \AppBundle\Entity\Proccess
+     */
+    public function removeQuestion(Question $question)
+    {
+        $this->questions->removeElement($question);
+
+        return $this;
+    }
+
+    /**
+     * Get Question entity collection (one to many).
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getQuestions()
+    {
+        return $this->questions;
     }
 
     public function __sleep()

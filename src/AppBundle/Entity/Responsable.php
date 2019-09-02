@@ -178,4 +178,8 @@ class Responsable
     {
         return array('id', 'name', 'email', 'website');
     }
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * AppBundle\Entity\Question
  *
  * @ORM\Entity()
- * @ORM\Table(name="question", indexes={@ORM\Index(name="fk_question_responsable1_idx", columns={"responsable_id"})})
+ * @ORM\Table(name="question", indexes={@ORM\Index(name="fk_question_responsable1_idx", columns={"responsable_id"}), @ORM\Index(name="fk_question_proccess1_idx", columns={"proccess_id"})})
  */
 class Question
 {
@@ -35,10 +35,21 @@ class Question
     protected $responsable_id;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    protected $proccess_id;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Responsable", inversedBy="questions")
      * @ORM\JoinColumn(name="responsable_id", referencedColumnName="id", nullable=false)
      */
     protected $responsable;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Proccess", inversedBy="questions")
+     * @ORM\JoinColumn(name="proccess_id", referencedColumnName="id", nullable=false)
+     */
+    protected $proccess;
 
     public function __construct()
     {
@@ -137,6 +148,29 @@ class Question
     }
 
     /**
+     * Set the value of proccess_id.
+     *
+     * @param integer $proccess_id
+     * @return \AppBundle\Entity\Question
+     */
+    public function setProccessId($proccess_id)
+    {
+        $this->proccess_id = $proccess_id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of proccess_id.
+     *
+     * @return integer
+     */
+    public function getProccessId()
+    {
+        return $this->proccess_id;
+    }
+
+    /**
      * Set Responsable entity (many to one).
      *
      * @param \AppBundle\Entity\Responsable $responsable
@@ -159,8 +193,31 @@ class Question
         return $this->responsable;
     }
 
+    /**
+     * Set Proccess entity (many to one).
+     *
+     * @param \AppBundle\Entity\Proccess $proccess
+     * @return \AppBundle\Entity\Question
+     */
+    public function setProccess(Proccess $proccess = null)
+    {
+        $this->proccess = $proccess;
+
+        return $this;
+    }
+
+    /**
+     * Get Proccess entity (many to one).
+     *
+     * @return \AppBundle\Entity\Proccess
+     */
+    public function getProccess()
+    {
+        return $this->proccess;
+    }
+
     public function __sleep()
     {
-        return array('id', 'title', 'message', 'responsable_id');
+        return array('id', 'title', 'message', 'responsable_id', 'proccess_id');
     }
 }
