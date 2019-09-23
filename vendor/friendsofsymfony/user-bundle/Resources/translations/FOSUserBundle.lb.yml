@@ -9,14 +9,12 @@ group:
         updated: 'D''Grupp gouf aktualiséiert.'
         created: 'D''Grupp gouf creéiert.'
         deleted: 'D''Grupp gouf geläscht.'
-
 security:
     login:
         username: Benotzernumm
         password: Passwuert
         remember_me: 'U mech erënneren'
         submit: Umellen
-
 profile:
     show:
         username: Benotzernumm
@@ -25,17 +23,13 @@ profile:
         submit: 'Benotzer aktualiséieren'
     flash:
         updated: 'De Benotzerprofil gouf aktualiséiert.'
-
 change_password:
     submit: 'Passwuert ännern'
     flash:
         success: 'D''Passwuert gouf geännert.'
-
 registration:
-    check_email: |
-        Et gouf eng E-Mail un %email% geschéckt. Se enthält e Link deen ugeklickt muss ginn, fir de Benotzerkont ze bestätegen.
-    confirmed: 'Gléckwonsch %username%, Däi Benutzerkont ass elo bestätegt.'
-    back: 'Zréck op déi ursprénglech Säit.'
+    check_email: 'Eng E-Mail gouf un %email% geschéckt. Se enthält e Link deen s Du uklicke muss, fir Däi Benotzerkonto ze bestätegen.'
+    confirmed: 'Gléckwonsch %username%, Däi Benutzerkonto ass elo bestätegt.'
     submit: Registréieren
     flash:
         user_created: 'De Benotzer gouf erfollegräich creéiert.'
@@ -44,19 +38,13 @@ registration:
         message: |
             Hallo %username%!
 
-            Fir Däi Benotzerkont ze bestätegen, besich wann ech gelift d'Säit %confirmationUrl%
-
-            De Link ka just eemol benotzt gi fir de Kont ze validéieren.
+            Fir Däi Benotzerkonto ze bestätegen, besich wann ech gelift d'Säit %confirmationUrl%
 
             Mat beschte Gréiss,
             d'Equipe.
 
 resetting:
-    check_email: |
-        Eng E-Mail gouf verschéckt. Se enthält e Link fir d'Passwuert zréckzesetzen.
-        Hiwäis: En neit Passwuert kann nëmmen all %tokenLifetime% Stonnen ugefrot ginn.
-
-        Eventuell gouf dës E-Mail als Spam markéiert, falls se net ukomm ass.
+#    check_email: 'Eng E-Mail gouf un %email% geschéckt. Se enthält e Link, deen s Du uklicke muss, fir Däi Passwort zeréckzesetzen.'
     request:
         username: Benotzernumm
         submit: 'Passwuert zerécksetzen'
@@ -65,7 +53,7 @@ resetting:
     flash:
         success: 'D''Passwuert gouf erfollegräich zeréckgesat.'
     email:
-        subject: 'Passwuert zrécksetzen'
+#        subject: 'Wëllkomm %username%!'
         message: |
             Hallo %username%!
 
@@ -74,13 +62,11 @@ resetting:
             Mat beschte Gréiss,
             d'Equipe.
 
-# Global strings
 layout:
     logout: Ofmellen
     login: Umellen
     register: Registréieren
     logged_in_as: 'Ugemellt als %username%'
-
 form:
     group_name: Gruppennumm
     username: Benotzernumm

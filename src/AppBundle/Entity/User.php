@@ -3,14 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use FOS\UserBundle\Model\User as BaseUser;
 /**
  * AppBundle\Entity\User
  *
  * @ORM\Entity()
  * @ORM\Table(name="`user`")
  */
-class User
+class User extends BaseUser
 {
     /**
      * @ORM\Id
@@ -51,6 +51,8 @@ class User
 
     public function __construct()
     {
+        parent::__construct();
+        $this->setCreatedAt(new \DateTime("now"));
     }
 
     /**

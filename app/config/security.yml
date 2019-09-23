@@ -1,14 +1,18 @@
 # To get started with security, check out the documentation:
 # https://symfony.com/doc/current/security.html
 security:
-    # encoders:
-    #     FOS\UserBundle\Model\UserInterface:
-    #         algorithm: sha512
-    #         encode-as-base64: true
-    #         iterations: 10
-
+    encoders:
+        FOS\UserBundle\Model\UserInterface:
+             algorithm: sha512
+             encode-as-base64: true
+             iterations: 10
+    role_hierarchy:
+        ROLE_USER:       ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_USER
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
         in_memory:
             memory: ~
         #fos_userbundle:
@@ -22,19 +26,19 @@ security:
 
         main:
             anonymous: ~
-            # activate different ways to authenticate
-    #         anonymous: true
-    #         form_login:
-    #             csrf_token_generator: security.csrf.token_manager
-    #             provider: fos_userbundle
-    #             use_referer: true
-    #         logout: true
-    #         pattern: ^/
-    #         remember_me:
-    #             lifetime: 31536000 # 604800 # 1 week in seconds
-    #             path: /
-    #             secret: '%secret%'
-    #
+            #activate different ways to authenticate
+            anonymous: true
+            form_login:
+                csrf_token_generator: security.csrf.token_manager
+                provider: fos_userbundle
+                use_referer: true
+            logout: true
+            pattern: ^/
+            remember_me:
+                lifetime: 31536000 # 604800 # 1 week in seconds
+                path: /
+                secret: '%secret%'
+
     # # role_hierarchy:
     #     ROLE_STUDENT: [ROLE_USER]
     #     ROLE_PROFESSOR: [ROLE_STUDENT]
@@ -45,11 +49,12 @@ security:
 
             # https://symfony.com/doc/current/security/form_login_setup.html
             #form_login: ~
-    # access_control:
-    #     - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-    #     - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-    #     - { path: ^/invitation, role: IS_AUTHENTICATED_ANONYMOUSLY }
-    #     - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-    #     ## For the API
+    access_control:
+         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/invitation, role: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/periodactivity, role: ROLE_USER }
+         ## For the API
     #     - { path: ^/api, role: IS_AUTHENTICATED_ANONYMOUSLY }
     #     - { path: ^/, role: ROLE_PROFESSOR }

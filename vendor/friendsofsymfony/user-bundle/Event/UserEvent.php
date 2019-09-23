@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 class UserEvent extends Event
 {
     /**
-     * @var Request|null
+     * @var null|Request
      */
     protected $request;
 

@@ -1,28 +1,25 @@
 fos_user:
     username:
-        already_used: 'Taki użytkownik już istnieje. Podaj inną nazwę.'
-        blank: 'Podaj nazwę użytkownika'
-        short: 'Podaj dłuższą nazwę użytkownika'
-        long: 'Podaj krótszą nazwę użytkownika'
+        already_used: 'Ta nazwa użytkownika jest już zajęta.'
+        blank: 'Proszę podać nazwę użytkownika.'
+        short: 'Nazwa użytkownika jest za krótka.'
+        long: 'Nazwa użytkownika jest za długa.'
     email:
-        already_used: 'Taki użytkownik już istnieje. Podaj inny email.'
-        blank: 'Podaj email'
-        short: 'Podaj dłuższy email'
-        long: 'Podaj krótszy email'
-        invalid: 'Podaj prawidłowy email'
+        already_used: 'Podany email jest zajęty.'
+        blank: 'Proszę podać adres email.'
+        short: 'Podany email jest za krótki.'
+        long: 'Podany email jest za długi.'
+        invalid: 'Podany adres email jest nieprawidłowy.'
     password:
-        blank: 'Podaj hasło'
-        short: 'Podaj dłuższe hasło'
-        mismatch: 'Hasła nie pasują do siebie. Podaj dwa razy to samo hasło.'
+        blank: 'Proszę podać hasło.'
+        short: 'Podane hasło jest za krótkie.'
+        mismatch: 'Hasła nie pasują do siebie.'
     new_password:
-        blank: 'Podaj nowe hasło'
-        short: 'Podaj dłuższe hasło'
+        blank: 'Proszę podać nowe hasło.'
+        short: 'Podane nowe hasło jest za krótkie.'
     current_password:
-        invalid: 'Podaj prawidłowe hasło'
+        invalid: 'Podane hasło jest nieprawidłowe.'
     group:
-        blank: 'Podaj nazwę'
-        short: 'Podaj dłuższą nazwę'
-        long: 'Podaj krótszą nazwę'
-fos_group:
-    name:
-        already_used: 'Taka grupa już istnieje. Podaj inną nazwę.'
+        blank: 'Proszę podać nazwę.'
+        short: 'Podana nazwa jest za krótka.'
+        long: 'Podana nazwa jest za długa.'

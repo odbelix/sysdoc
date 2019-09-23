@@ -39,7 +39,8 @@ class PeriodActivityType extends AbstractType
                 'class' => 'AppBundle:PeriodDuration',
                 'attr' => array('placeholder' => 'Duración'),
                 'label' => 'Duración'));*/
-            ->add('periodDuration');
+            ->add('periodDuration')
+            ->add('unit');
     }
 
     /**
