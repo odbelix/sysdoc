@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+{% block title %}Reglamentos{% endblock %}
+
+{% block body %}
+{% include 'breadcrumb.html.twig' with {'breadcrumbs': breadcrumbs} %}
+<div class="row">
+    <div class="col-12">
+    <h1>Revisión de Reglamento</h1>
+    <h3>
+        <a class="btn btn-info" href="{{ app.request.headers.get('referer') }}"><i class="fa fa-fw fa-arrow-left"></i></a>
+    </h3>
+    <table class="table table-bordered table-hover">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ regulation.id }}</td>
+            </tr>
+            <tr>
+                <th>Valid</th>
+                <td>{% if regulation.valid %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ regulation.name }}</td>
+            </tr>
+            <tr>
+                <th>Number</th>
+                <td>{{ regulation.number }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ regulation.date }}</td>
+            </tr>
+            <tr>
+                <th>Created_at</th>
+                <td>{% if regulation.createdat %}{{ regulation.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Updated_at</th>
+                <td>{% if regulation.updatedat %}{{ regulation.updatedat|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+    <ul>
+        <li>
+            <a href="{{ path('regulation_edit', { 'id': regulation.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input class="btn btn-danger" type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-lg-6">
+        <!-- System Notes -->
+        <div class="card mb-3">
+        <div class="card-header">
+        <i class="fa fa-bell-o"></i> Articulos </div>
+        <div class="list-group list-group-flush small">
+          {% set break = false %}
+          {% set count = 1 %}
+          {% for art in regulation.regulationarts if not break %}
+          {% if count == 5 %}
+            {% set break = true %}
+          {% endif %}
+          <a class="list-group-item list-group-item-action" href="#">
+            <div class="media">
+              <div class="media-body">
+                <strong>{{art.name}}</strong>: {{art.detail}}
+                <br><strong> Sistemas de Información / Procesos</strong>
+                <div class="text-muted smaller">{{art.systemRegulationArts|length}} / {{art.proccessRegulationArts|length}}</div>
+              </div>
+            </div>
+          </a>
+          {% set count = count + 1 %}
+          {% endfor %}
+          <a class="list-group-item list-group-item-action" href="{{path('regulationart_index')}}">Ver todos los Articulos de los Reglamentos...</a>
+        </div>
+        <div class="card-footer small text-muted">
+            <a class="btn btn-success" href="{{ path('regulationart_new') }}">Agregar Articulo</a>
+        </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+    </div>
+{% endblock %}

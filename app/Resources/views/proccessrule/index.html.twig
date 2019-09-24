@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Proccessrules list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Proccess_id</th>
+                <th>Name</th>
+                <th>Text</th>
+                <th>Created_at</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for proccessRule in proccessRules %}
+            <tr>
+                <td><a href="{{ path('proccessrule_show', { 'id': proccessRule.id }) }}">{{ proccessRule.id }}</a></td>
+                <td>{{ proccessRule.proccessid }}</td>
+                <td>{{ proccessRule.name }}</td>
+                <td>{{ proccessRule.text }}</td>
+                <td>{% if proccessRule.createdat %}{{ proccessRule.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('proccessrule_show', { 'id': proccessRule.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('proccessrule_edit', { 'id': proccessRule.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('proccessrule_new') }}">Create a new proccessRule</a>
+        </li>
+    </ul>
+{% endblock %}

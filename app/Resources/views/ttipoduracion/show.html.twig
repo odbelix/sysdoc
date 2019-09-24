@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Ttipoduracion</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Ttd_codigo</th>
+                <td>{{ tTipoDuracion.ttdcodigo }}</td>
+            </tr>
+            <tr>
+                <th>Ttd_descripcion</th>
+                <td>{{ tTipoDuracion.ttddescripcion }}</td>
+            </tr>
+            <tr>
+                <th>Ttd_vigencia</th>
+                <td>{{ tTipoDuracion.ttdvigencia }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('ttipoduracion_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('ttipoduracion_edit', { 'ttd_codigo': tTipoDuracion.ttdcodigo }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

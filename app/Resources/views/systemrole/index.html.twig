@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Systemroles list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Created_at</th>
+                <th>Updated_at</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for systemRole in systemRoles %}
+            <tr>
+                <td><a href="{{ path('systemrole_show', { 'id': systemRole.id }) }}">{{ systemRole.id }}</a></td>
+                <td>{{ systemRole.name }}</td>
+                <td>{{ systemRole.description }}</td>
+                <td>{% if systemRole.createdat %}{{ systemRole.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if systemRole.updatedat %}{{ systemRole.updatedat|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('systemrole_show', { 'id': systemRole.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('systemrole_edit', { 'id': systemRole.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('systemrole_new') }}">Create a new systemRole</a>
+        </li>
+    </ul>
+{% endblock %}

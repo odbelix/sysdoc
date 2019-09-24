@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Systemnote</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ systemNote.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ systemNote.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ systemNote.description }}</td>
+            </tr>
+            <tr>
+                <th>Created_at</th>
+                <td>{% if systemNote.createdat %}{{ systemNote.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Updated_at</th>
+                <td>{% if systemNote.updatedat %}{{ systemNote.updatedat|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Year</th>
+                <td>{{ systemNote.year }}</td>
+            </tr>
+            <tr>
+                <th>Period</th>
+                <td>{{ systemNote.period }}</td>
+            </tr>
+            <tr>
+                <th>Adjustment_id</th>
+                <td>{{ systemNote.adjustmentid }}</td>
+            </tr>
+            <tr>
+                <th>System_id</th>
+                <td>{{ systemNote.systemid }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('systemnote_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('systemnote_edit', { 'id': systemNote.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

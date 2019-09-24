@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Systemusers list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>System_role_id</th>
+                <th>System_id</th>
+                <th>Created_at</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for systemUser in systemUsers %}
+            <tr>
+                <td><a href="{{ path('systemuser_show', { 'id': systemUser.id }) }}">{{ systemUser.id }}</a></td>
+                <td>{{ systemUser.systemroleid }}</td>
+                <td>{{ systemUser.systemid }}</td>
+                <td>{% if systemUser.createdat %}{{ systemUser.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('systemuser_show', { 'id': systemUser.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('systemuser_edit', { 'id': systemUser.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('systemuser_new') }}">Create a new systemUser</a>
+        </li>
+    </ul>
+{% endblock %}

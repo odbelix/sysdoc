@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Meetingnote</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ meetingNote.id }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ meetingNote.note }}</td>
+            </tr>
+            <tr>
+                <th>Meeting_id</th>
+                <td>{{ meetingNote.meetingid }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('meetingnote_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('meetingnote_edit', { 'id': meetingNote.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

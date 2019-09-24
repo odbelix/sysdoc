@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% block title %}Calendario académico{% endblock %}
+
+{% block stylesheets %}
+<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block body %}
+{% include 'breadcrumb.html.twig' with {'breadcrumbs': breadcrumbs} %}
+
+    <div class="row">
+        <div class="col-12">
+        <h1>Calendarios Académicos Gestionados</h1>
+        <h3>
+            <a class="btn btn-success" href="{{ path('periodcalendar_new') }}"><i class="fa fa-fw fa-plus"></i></a>
+        </h3>
+        <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Identificador</th>
+                <th>Cantidad de Actividades</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for periodCalendar in periodCalendars %}
+            <tr>
+                <td><a href="{{ path('periodcalendar_show', { 'id': periodCalendar.id }) }}">{{ periodCalendar.id }}</a></td>
+                <td>{{ periodCalendar.name }}</td>
+                <td>{{ periodCalendar.identify }}</td>
+                <td>
+                    {% if periodCalendar.periodActivities|length > 0 %}
+                        {{ periodCalendar.periodActivities|length }} <a class="btn btn-warning" href="{{ path('periodactivity_index', { 'id': periodCalendar.id }) }}"><i class="fa fa-fw fa-eye"></i></a>
+                    {% else %}
+                        Sin actividades Registradas
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</div>
+{% endblock %}

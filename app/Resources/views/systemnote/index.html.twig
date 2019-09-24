@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Systemnotes list</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Created_at</th>
+                <th>Updated_at</th>
+                <th>Year</th>
+                <th>Period</th>
+                <th>Adjustment_id</th>
+                <th>System_id</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for systemNote in systemNotes %}
+            <tr>
+                <td><a href="{{ path('systemnote_show', { 'id': systemNote.id }) }}">{{ systemNote.id }}</a></td>
+                <td>{{ systemNote.name }}</td>
+                <td>{{ systemNote.description }}</td>
+                <td>{% if systemNote.createdat %}{{ systemNote.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if systemNote.updatedat %}{{ systemNote.updatedat|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ systemNote.year }}</td>
+                <td>{{ systemNote.period }}</td>
+                <td>{{ systemNote.adjustmentid }}</td>
+                <td>{{ systemNote.systemid }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('systemnote_show', { 'id': systemNote.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('systemnote_edit', { 'id': systemNote.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('systemnote_new',{'system':0}) }}">Create a new systemNote</a>
+        </li>
+    </ul>
+{% endblock %}

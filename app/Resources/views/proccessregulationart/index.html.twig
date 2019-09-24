@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Proccessregulationarts list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Proccess_id</th>
+                <th>Regulation_art_id</th>
+                <th>Created_at</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for proccessRegulationArt in proccessRegulationArts %}
+            <tr>
+                <td><a href="{{ path('proccessregulationart_show', { 'id': proccessRegulationArt.id }) }}">{{ proccessRegulationArt.id }}</a></td>
+                <td>{{ proccessRegulationArt.proccessid }}</td>
+                <td>{{ proccessRegulationArt.regulationartid }}</td>
+                <td>{% if proccessRegulationArt.createdat %}{{ proccessRegulationArt.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('proccessregulationart_show', { 'id': proccessRegulationArt.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('proccessregulationart_edit', { 'id': proccessRegulationArt.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('proccessregulationart_new') }}">Create a new proccessRegulationArt</a>
+        </li>
+    </ul>
+{% endblock %}

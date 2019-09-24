@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Meetingnotes list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Note</th>
+                <th>Meeting_id</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for meetingNote in meetingNotes %}
+            <tr>
+                <td><a href="{{ path('meetingnote_show', { 'id': meetingNote.id }) }}">{{ meetingNote.id }}</a></td>
+                <td>{{ meetingNote.note }}</td>
+                <td>{{ meetingNote.meetingid }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('meetingnote_show', { 'id': meetingNote.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('meetingnote_edit', { 'id': meetingNote.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('meetingnote_new') }}">Create a new meetingNote</a>
+        </li>
+    </ul>
+{% endblock %}

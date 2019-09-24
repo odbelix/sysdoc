@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Meetingagreements list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Agreement</th>
+                <th>Meeting_id</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for meetingAgreement in meetingAgreements %}
+            <tr>
+                <td><a href="{{ path('meetingagreement_show', { 'id': meetingAgreement.id }) }}">{{ meetingAgreement.id }}</a></td>
+                <td>{{ meetingAgreement.agreement }}</td>
+                <td>{{ meetingAgreement.meetingid }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('meetingagreement_show', { 'id': meetingAgreement.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('meetingagreement_edit', { 'id': meetingAgreement.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('meetingagreement_new') }}">Create a new meetingAgreement</a>
+        </li>
+    </ul>
+{% endblock %}
